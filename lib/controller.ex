@@ -1,5 +1,6 @@
 defmodule CatBookshop.Controller do
   alias CatBookshop.Model, as: M
+  alias CatBookshop.Errors, as: E
 
   @existing_cats ["Tihon", "Marfa", "Plushka"]
   @existing_authors ["Scott Wlaschin", "Стивен Строгац", "Mikito Takada"]
@@ -37,6 +38,43 @@ defmodule CatBookshop.Controller do
       {:ok, %M.Book{title: data["title"], author: data["author"]}}
     else
       {:error, :book_not_found}
+    end
+  end
+
+  # Функции, бросающие исключения
+  @spec validate_incoming_data!(map()) :: map()
+  def validate_incoming_data!(%{"cat" => _, "address" => _, "books" => _} = data) do
+    data
+  end
+
+  def validate_incoming_data!(_) do
+    E.InvalidIncomingData
+  end
+
+  @spec validate_cat!(name :: String.t()) :: {:ok, Cat.t()} | {:error, :cat_not_found}
+  def validate_cat!(name) do
+    if name in @existing_cats do
+      {:ok, %M.Cat{id: name, name: name}}
+    else
+      {:error, :cat_not_found}
+    end
+  end
+
+  @spec validate_address!(String.t()) :: Address.t()
+  def validate_address!(data) do
+    if String.length(data) > 5 do
+      %M.Address{other: data}
+    else
+      raise E.InvalidAddress, data
+    end
+  end
+
+  @spec validate_book!(map()) :: Book.t()
+  def validate_book!(%{"author" => author} = data) do
+    if author in @existing_authors do
+      %M.Book{title: data["title"], author: data["author"]}
+    else
+      raise E.BookNotFound, {data["title"], data["author"]}
     end
   end
 end
