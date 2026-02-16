@@ -1,5 +1,4 @@
 defmodule TestData do
-  
   def valid_data do
     %{
       "cat" => "Tihon",

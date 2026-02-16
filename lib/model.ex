@@ -1,5 +1,5 @@
 defmodule CatBookshop.Model do
-defmodule Cat do
+  defmodule Cat do
     defstruct [:id, :name]
   end
 

@@ -19,13 +19,13 @@ defmodule ControllerTest do
 
   test "validate address" do
     assert C.validate_address("Minsk Belarus") == {
-            :ok,
-            %M.Address{
-              state: nil,
-              city: nil,
-              other: "Minsk Belarus"
-            }
-          }
+             :ok,
+             %M.Address{
+               state: nil,
+               city: nil,
+               other: "Minsk Belarus"
+             }
+           }
 
     assert C.validate_address("42") == {:error, :invalid_address}
   end
@@ -34,12 +34,12 @@ defmodule ControllerTest do
     valid_book = TestData.valid_book()
 
     assert C.validate_book(valid_book) == {
-            :ok,
-            %M.Book{
-              title: valid_book["title"],
-              author: valid_book["author"]
-            }
-          }
+             :ok,
+             %M.Book{
+               title: valid_book["title"],
+               author: valid_book["author"]
+             }
+           }
 
     invalid_book = TestData.invalid_book()
     assert C.validate_book(invalid_book) == {:error, :book_not_found}

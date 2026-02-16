@@ -1,4 +1,4 @@
-defmodule CatBookshop.Solution1 do
+defmodule CatBookshop.Solution2 do
   alias CatBookshop.Model, as: M
   alias CatBookshop.Controller, as: C
 
@@ -10,16 +10,9 @@ defmodule CatBookshop.Solution1 do
           {:ok, cat} ->
             case C.validate_address(data["address"]) do
               {:ok, address} ->
-                data["books"]
-                |> Enum.map(&C.validate_book/1)
-                |> Enum.reduce({[], nil}, fn
-                  {:ok, book}, {books, nil} -> {[book | books], nil}
-                  {:error, error}, {books, nil} -> {books, {:error, error}}
-                  _maybe_book, acc -> acc
-                end)
-                |> case do
-                  {books, nil} -> {:ok, M.Order.create(cat, address, books)}
-                  {_, error} -> error
+                case handle_books(data["books"]) do
+                  {:ok, books} -> {:ok, M.Order.create(cat, address, books)}
+                  error -> error
                 end
 
               {:error, error} ->
@@ -32,6 +25,20 @@ defmodule CatBookshop.Solution1 do
 
       {:error, error} ->
         {:error, error}
+    end
+  end
+
+  def handle_books(books) do
+    books
+    |> Enum.map(&C.validate_book/1)
+    |> Enum.reduce({[], nil}, fn
+      {:ok, book}, {books, nil} -> {[book | books], nil}
+      {:error, error}, {books, nil} -> {books, {:error, error}}
+      _maybe_book, acc -> acc
+    end)
+    |> case do
+      {books, nil} -> {:ok, books}
+      {_, error} -> error
     end
   end
 end

@@ -1,5 +1,5 @@
 defmodule CatBookshop do
-def test_data do
+  def test_data do
     %{
       "cat" => "Tihon",
       "address" => "Coolcat str 7/42 Minsk Belarus",

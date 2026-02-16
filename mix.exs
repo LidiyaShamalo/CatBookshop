@@ -8,7 +8,8 @@ defmodule CatBookshop.MixProject do
       elixir: "~> 1.19",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      elixirc_paths: elixirc_paths(Mix.env()) #для прохождения интеграционных тестов
+      # для прохождения интеграционных тестов
+      elixirc_paths: elixirc_paths(Mix.env())
     ]
   end
 
@@ -27,7 +28,7 @@ defmodule CatBookshop.MixProject do
     ]
   end
 
-  #для прохождения интеграционных тестов
+  # для прохождения интеграционных тестов
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
 end

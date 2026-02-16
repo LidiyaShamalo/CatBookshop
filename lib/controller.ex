@@ -1,5 +1,4 @@
 defmodule CatBookshop.Controller do
-
   alias CatBookshop.Model, as: M
 
   @existing_cats ["Tihon", "Marfa", "Plushka"]
@@ -40,5 +39,4 @@ defmodule CatBookshop.Controller do
       {:error, :book_not_found}
     end
   end
-
 end
