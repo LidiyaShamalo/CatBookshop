@@ -8,14 +8,8 @@ defmodule CatBookshop.Solution2 do
       {:ok, data} ->
         case C.validate_cat(data["cat"]) do
           {:ok, cat} ->
-            case C.validate_address(data["address"]) do
-              {:ok, address} ->
-                state = %{cat: cat, address: address}
-                handle_books(data["books"], state)
-
-              {:error, error} ->
-                {:error, error}
-            end
+            state = %{cat: cat}
+            handle_address(data, state)
 
           {:error, error} ->
             {:error, error}
@@ -26,7 +20,18 @@ defmodule CatBookshop.Solution2 do
     end
   end
 
-  def handle_books(books, state) do
+  def handle_address(data, state) do
+    case C.validate_address(data["address"]) do
+      {:ok, address} ->
+        state = Map.put(state, :address, address)
+        handle_books(data, state)
+
+      {:error, error} ->
+        {:error, error}
+    end
+  end
+
+  def handle_books(%{"books" => books}, state) do
     books
     |> Enum.map(&C.validate_book/1)
     |> Enum.reduce({[], nil}, fn
