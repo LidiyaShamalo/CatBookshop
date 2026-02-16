@@ -1,6 +1,6 @@
-defmodule CatBookshop.Solutions.Solution1 do
+defmodule CatBookshop.Solution1 do
 
-  alias CatBookshop.Model.Model, as: M
+  alias CatBookshop.Model, as: M
   alias CatBookshop.Controller, as: C
 
   @spec handle(map()) :: {:ok, M.Order.t()} | {:error, any()}

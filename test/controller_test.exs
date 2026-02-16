@@ -2,6 +2,7 @@ defmodule ControllerTest do
   use ExUnit.Case
 
   alias CatBookshop.Controller, as: C
+  alias CatBookshop.Model, as: M
 
   test "validate incoming data" do
     valid_data = TestData.valid_data()

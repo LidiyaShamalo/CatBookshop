@@ -1,6 +1,6 @@
 #ExUnit.start()
 
 
-Code.compile_file("test/testdata.ex") # Укажите точный путь к вашему файлу
+Code.compile_file("test/support/testdata.ex") # Укажите точный путь к вашему файлу
 
 ExUnit.start()
