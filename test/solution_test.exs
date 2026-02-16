@@ -8,7 +8,7 @@ defmodule SolutionTest do
     valid_data = TestData.valid_data()
 
     assert S.handle(valid_data) ==
-            {:ok,
+             {:ok,
               %M.Order{
                 client: %M.Cat{id: "Tihon", name: "Tihon"},
                 address: %M.Address{
