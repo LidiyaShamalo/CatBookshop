@@ -1,6 +1,6 @@
 defmodule CatBookshop.Controller do
 
-  alias CatBookshop.Model.Model, as: M
+  alias CatBookshop.Model, as: M
   def handle(request) do
 
   end

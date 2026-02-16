@@ -1,8 +1,9 @@
 defmodule CatBookshopTest do
   use ExUnit.Case
-  doctest CatBookshop
 
-  test "greets the world" do
-    assert CatBookshop.hello() == :world
+  test "test data" do
+    assert CatBookshop.test_data == TestData.valid_data()
   end
+
+  
 end

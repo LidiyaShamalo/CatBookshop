@@ -1,4 +1,4 @@
-defmodule CatBookshop.Model.Model do
+defmodule CatBookshop.Model do
 defmodule Cat do
     defstruct [:id, :name]
   end
@@ -23,4 +23,3 @@ defmodule Cat do
     end
   end
 end
-
