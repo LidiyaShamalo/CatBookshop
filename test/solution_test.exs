@@ -26,4 +26,37 @@ defmodule SolutionTest do
         ]
       }}
   end
+
+  test "invalid incoming data" do
+    invalid_data = TestData.invalid_data()
+
+    assert S.handle(invalid_data) == {:error, :invalid_incoming_data}
+  end
+
+  test "invalid cat" do
+    data =
+      TestData.valid_data()
+      |> Map.put("cat", "Baton")
+
+    assert S.handle(data) == {:error, :cat_not_found}
+  end
+
+  test "invalid address" do
+    data =
+      TestData.valid_data()
+      |> Map.put("address", "42")
+
+    assert S.handle(data) == {:error, :invalid_address}
+  end
+
+  test "invalid book" do
+    invalid_book = TestData.invalid_book()
+
+    data =
+      TestData.valid_data()
+      |> update_in(["books"], fn books -> [invalid_book | books] end)
+
+      assert S.handle(data) == {:error, :book_not_found}
+  end
+
 end
