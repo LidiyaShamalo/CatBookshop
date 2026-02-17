@@ -48,15 +48,15 @@ defmodule CatBookshop.Controller do
   end
 
   def validate_incoming_data!(_) do
-    E.InvalidIncomingData
+    raise E.InvalidIncomingData
   end
 
-  @spec validate_cat!(name :: String.t()) :: {:ok, Cat.t()} | {:error, :cat_not_found}
+  @spec validate_cat!(name :: String.t()) :: Cat.t()
   def validate_cat!(name) do
     if name in @existing_cats do
-      {:ok, %M.Cat{id: name, name: name}}
+      %M.Cat{id: name, name: name}
     else
-      {:error, :cat_not_found}
+      raise E.CatNotFound, name
     end
   end
 

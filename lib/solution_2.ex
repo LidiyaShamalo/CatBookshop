@@ -7,18 +7,21 @@ defmodule CatBookshop.Solution2 do
     case C.validate_incoming_data(data) do
       {:ok, data} ->
         handle_cat(data, %{})
-      {:error, error} -> {:error, error}
+
+      {:error, error} ->
+        {:error, error}
     end
   end
 
   def handle_cat(data, state) do
     case C.validate_cat(data["cat"]) do
-          {:ok, cat} ->
-            state = Map.put(state, :cat, cat)
-            handle_address(data, state)
+      {:ok, cat} ->
+        state = Map.put(state, :cat, cat)
+        handle_address(data, state)
 
-          {:error, error} -> {:error, error}
-        end
+      {:error, error} ->
+        {:error, error}
+    end
   end
 
   def handle_address(data, state) do
@@ -27,7 +30,8 @@ defmodule CatBookshop.Solution2 do
         state = Map.put(state, :address, address)
         handle_books(data, state)
 
-      {:error, error} -> {:error, error}
+      {:error, error} ->
+        {:error, error}
     end
   end
 
