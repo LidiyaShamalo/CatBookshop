@@ -4,13 +4,37 @@
 
 defmodule FP do
 
-#@spec bind(m_fun(), m_fun()) :: m_fun()
+#Типы функций, которые обычно используются в таких цепочках
+@type succesful() :: any()
+@type error() :: any()
+@type result() :: {:ok, succesful()} | {:error, error()}
+@type m_fun() :: (any() -> result())
+
+@spec bind(m_fun(), m_fun()) :: m_fun()
   def bind(f1, f2) do
     fn args ->
       case f1.(args) do
         {:ok, result} -> f2.(result)
         {:error, error} -> {:error, error}
       end
+    end
+  end
+
+  #Обобщение: для обработки повторяющегося кода (для списков)
+  @spec sequence([result()]) :: {:ok, [succesful()]} | {:error, error()}
+  def sequence(result_list) do
+    result_list
+    |> Enum.reduce({[], nil}, fn
+      {:ok, result}, {results, nil} -> {[result | results], nil}
+      {:error, error}, {results, nil} -> {results, {:error, error}}
+      _maybe_result, acc -> acc
+    end)
+    |> case do
+      {results, nil} ->
+        {:ok, results}
+
+      {_, error} ->
+        error
     end
   end
 
