@@ -2,12 +2,22 @@ defmodule SolutionTest do
   use ExUnit.Case
 
   alias CatBookshop.Model, as: M
-  alias CatBookshop.Solution5, as: S
+
+  @test_solutions [
+    CatBookshop.Solution1,
+    CatBookshop.Solution2,
+    CatBookshop.Solution3,
+    CatBookshop.Solution4,
+    CatBookshop.Solution5
+  ]
 
   test "create order" do
     valid_data = TestData.valid_data()
 
-    assert S.handle(valid_data) ==
+    MyAssertions.assert_many(
+      @test_solutions,
+      :handle,
+      [valid_data],
             {:ok,
               %M.Order{
                 client: %M.Cat{id: "Tihon", name: "Tihon"},
@@ -25,20 +35,31 @@ defmodule SolutionTest do
                   %M.Book{title: "Удовольствие от Х", author: "Стивен Строгац"}
                 ]
               }}
+    )
   end
 
   test "invalid incoming data" do
     invalid_data = TestData.invalid_data()
 
-    assert S.handle(invalid_data) == {:error, :invalid_incoming_data}
-  end
+    MyAssertions.assert_many(
+      @test_solutions,
+      :handle,
+      [invalid_data],
+      {:error, :invalid_incoming_data}
+  )
+end
 
   test "invalid cat" do
     data =
       TestData.valid_data()
       |> Map.put("cat", "Baton")
 
-    assert S.handle(data) == {:error, :cat_not_found}
+    MyAssertions.assert_many(
+      @test_solutions,
+      :handle,
+      [data],
+      {:error, :cat_not_found}
+      )
   end
 
   test "invalid address" do
@@ -46,7 +67,12 @@ defmodule SolutionTest do
       TestData.valid_data()
       |> Map.put("address", "42")
 
-    assert S.handle(data) == {:error, :invalid_address}
+    MyAssertions.assert_many(
+      @test_solutions,
+      :handle,
+      [data],
+      {:error, :invalid_address}
+      )
   end
 
   test "invalid book" do
@@ -56,6 +82,11 @@ defmodule SolutionTest do
       TestData.valid_data()
       |> update_in(["books"], fn books -> [invalid_book | books] end)
 
-    assert S.handle(data) == {:error, :book_not_found}
+    MyAssertions.assert_many(
+      @test_solutions,
+      :handle,
+      [data],
+      {:error, :book_not_found}
+      )
   end
 end
