@@ -38,6 +38,17 @@ defmodule FP do
     end
   end
 
+  # Функция, которая принимает в качестве аргументов список функций, которые
+  # должны проходить цепочку вызовов с передачей друг другу результата
+
+  @spec pipeline(any(), [m_fun()]) :: result()
+  def pipeline(state, fun_list) do
+    Enum.reduce(fun_list, {:ok, state}, fn
+      f, {:ok, curr_state} -> f.(curr_state)
+      _f, {:error, error} -> {:error, error}
+    end)
+  end
+
   # Примеры использования:
   # f1 |> f2 |> f3 |> f4
 
