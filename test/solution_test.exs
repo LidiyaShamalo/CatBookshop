@@ -8,7 +8,8 @@ defmodule SolutionTest do
     CatBookshop.Solution2,
     CatBookshop.Solution3,
     CatBookshop.Solution4,
-    CatBookshop.Solution5
+    CatBookshop.Solution5,
+    CatBookshop.Solution6
   ]
 
   test "create order" do
